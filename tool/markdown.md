@@ -39,7 +39,8 @@ Markdown 不是想要取代 HTML，甚至也没有要和它相近，它的语法
 
 不在 Markdown 涵盖范围之内的标签，都可以直接在文档里面用 HTML 撰写。不需要额外标注这是 HTML 或是 Markdown；只要直接加标签就可以了。
 
-要制约的只有一些 HTML 区块元素――比如 <div>、<table>、<pre>、<p> 等标签，必须在前后加上空行与其它内容区隔开，还要求它们的开始标签与结尾标签不能用制表符或空格来缩进。Markdown 的生成器有足够智能，不会在 HTML 区块标签外加上不必要的 <p> 标签。
+要制约的只有一些HTML区块元素 比如 \<div>、\<table>、\<pre>、\<p> 等标签，必须在前后加上空行与其它内容区隔开，还要求它们的开始标签与结尾标签不能用制表符或空格来缩进。Markdown 的生成器有足够智能，不会在 HTML 区块标签外加上不必要的 \<p> 标签。
+
 
 例子如下，在 Markdown 文件里加上一段 HTML 表格
 ``` html
@@ -55,7 +56,7 @@ Markdown 不是想要取代 HTML，甚至也没有要和它相近，它的语法
 ```
 请注意，在 HTML 区块标签间的 Markdown 格式语法将不会被处理。比如，你在 HTML 区块内使用 Markdown 样式的*强调*会没有效果。
 
-HTML 的区段（行内）标签如 <span>、<cite>、<del> 可以在 Markdown 的段落、列表或是标题里随意使用。依照个人习惯，甚至可以不用 Markdown 格式，而直接采用 HTML 标签来格式化。举例说明：如果比较喜欢 HTML 的 <a> 或 <img> 标签，可以直接使用这些标签，而不用 Markdown 提供的链接或是图像标签语法。
+HTML 的区段（行内）标签如 \<span>、\<cite>、\<del> 可以在 Markdown 的段落、列表或是标题里随意使用。依照个人习惯，甚至可以不用 Markdown 格式，而直接采用 HTML 标签来格式化。举例说明：如果比较喜欢 HTML 的 \<a> 或 \<img> 标签，可以直接使用这些标签，而不用 Markdown 提供的链接或是图像标签语法。
 
 和处在 HTML 区块标签间不同，Markdown 语法在 HTML 区段标签间是有效的。
 
@@ -64,9 +65,9 @@ HTML 的区段（行内）标签如 <span>、<cite>、<del> 可以在 Markdown �
 在 HTML 文件中，有两个字符需要特殊处理： `<` 和 `&` 。`<` 符号用于起始标签，& 符号则用于标记 HTML 实体，如果你只是想要显示这些字符的原型，你必须要使用实体的形式，像是 &lt; 和 &amp;
 
 & 字符尤其让网络文档编写者受折磨，如果你要打「AT&T」 ，你必须要写成「AT&amp;T」。而网址中的 & 字符也要转换。比如你要链接到
-http://images.google.com/images?num=30&q=larry+bird
+`http://images.google.com/images?num=30&q=larry+bird`
 你必须要把网址转换写为
-http://images.google.com/images?num=30&amp;q=larry+bird
+`http://images.google.com/images?num=30&amp;q=larry+bird`
 才能放到链接标签的 href 属性里。不用说也知道这很容易忽略，这也可能是 HTML 标准检验所检查到的错误中，数量最多的。
 
 *Markdown* 让你可以自然地书写字符，需要转换的由它来处理好了。如果你使用的`&` 字符是 HTML 字符实体的一部分，它会保留原状，否则它会被转换成 `&amp;`
