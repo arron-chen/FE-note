@@ -11,7 +11,7 @@
     } catch (e) {
       array = new Array();
       for (var i = 0, len = nodes.length; i < len; i++) {
-        array.push(nodes{i]);
+        array.push(nodes[i]);
       }
     }
   return array;
