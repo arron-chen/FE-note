@@ -30,6 +30,27 @@ if（typeof Array.isArray === 'undefined'）{
 ```
 3. 获取元素的矩形对象
 ```js
+
+function getElementLeft(element) {
+    var actualLeft = element.offsetLeft;
+    var current = element.offsetParent;
+    
+    while (current != null) {
+        actualLeft += current.offsetLeft;
+        current =  element.offsetParent;
+    }
+}
+
+function getElementTop(element) {
+    var actualTop = element.offsetTop;
+    var current = element.offsetParent;
+    
+    while (current != null) {
+        actualTop += element.offsetTop;
+        current = element.offsetParent;
+    }
+}
+
 function getBoundingClientRect(element) {
     var scrollTop = document.documentElement.scrollTop;
     var scrollLeft = document.documentElement.scrollLeft;
@@ -54,7 +75,7 @@ function getBoundingClientRect(element) {
         }
     } else {
         var actualLeft = getElementLeft(element);
-        var actualRight = getElementRight(element);
+        var actualRight = getElementTop(element);
         
         return {
             left: actualLeft - scrollLeft,
