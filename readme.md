@@ -16,9 +16,10 @@ Front-End 前端：在用户界面设计图确定之后，根据不同的目标�
 #### 基础
 1. vue与react的异同
 2. PWA是什么？应用场景
-3. polyfill兼容如何使用？
-4. web安全 如何防止xss
-5. 
+3. polyfill兼容如何使用  transfrom-runtime
+4. web安全 如何防止xss 输入不可信（安全校验） 服务端服务转义
+5. 跨站请求伪造csrf 同源监测 服务端token
+6. 
 
 ## html
 
@@ -26,7 +27,6 @@ Front-End 前端：在用户界面设计图确定之后，根据不同的目标�
 2. 浏览器url输入到显示过程： `缓存检查、DNS解析（域名解析）、TCP三次握手、HTTP请求（协商缓存last-modified etag）、客户端解析资源（根据content-type解析HTML 构建DOM树 CSS parser构建CSSOM树 生成渲染树 最后生成页面）`[浏览器从输入URL到页面显示过程](https://juejin.cn/post/6928677404332425223) 
     [url解析到页面显示](https://juejin.cn/post/6939170194367447053)
 
-3. 
 
 ## CSS
 
@@ -34,9 +34,9 @@ Front-End 前端：在用户界面设计图确定之后，根据不同的目标�
 2. 盒模型
 3. 回流重绘
 4. css动画 animation transform
-5. BFC
+5. BFC 重新计算宽度
 6. [1px解决方案](https://juejin.cn/post/6874940963635232775)
-7. viewport与移动端布局
+7. viewport与移动端布局 
 8. 像素单位与设计稿实现 px em rem vw vh
 9. 预处理语言（sass、less） 区别
 10. [H5自适应方案](https://juejin.cn/post/6844903795613237261)
@@ -70,10 +70,10 @@ Front-End 前端：在用户界面设计图确定之后，根据不同的目标�
 25. 缓存 强缓存、协商缓存
 26. [ajax无感知刷新](https://www.jianshu.com/p/54a2e4c4b567)
 27. promise与 async await 异步解决方案变迁与优缺点
-28. ES6新特性： let、const变量 解构赋值 字符串模版  promise proxy 
+28. ES6新特性： let、const变量 解构赋值 字符串模版 set和map Reflect class类 async await promise proxy 
 29. [TypeScript](https://juejin.cn/post/6844904182843965453) 
 30. iframe优缺点
-31. 模块化
+31. 模块化 import和require的区别 import（ES6 module规范  静态分析按需加载 输出值引用不缓存） require（commonJS规范 运行时加载 输出值的复制 需要缓存）
 32. 
 ## 前端优化
 1. [性能优化常见方法](https://juejin.cn/post/6931157334508961799)
@@ -107,14 +107,28 @@ Front-End 前端：在用户界面设计图确定之后，根据不同的目标�
 
 `vue基础`
 1. 生命周期
+   | 生命周期钩子函数 | 类型 | 详情 |
+   | ----- | ----- | ----- |
+   |beforeCerated | Function | 在实例化VUE组件之后，数据观测(data Observer)和event/watch事件配置之前|
+   |created | Function | 在实例创建完成之后被立即调用。在这一步，实例已完成以下配置：数据观测（data observer），属性和方法的运算，watch/event事件回调。挂载阶段未开始，$el不可见 |
+   |beforeMounted | Function | 在挂载开始之前调用，相关render函数首次被调用 |
+   |mounted | Function | el被创建的vm.$el 替换，并挂载到实例上后调用该方法。|
+   |beforeUpdated | Function | 数据更新时调用， 发生在虚拟DOM打补丁之前。适用于更新之前访问现有的DOM,比如手动移除已添加的事件监听器。该钩子函数在服务端渲染期间不可被调用，因为只有在初次渲染会在服务端进行 |
+   |updated | Function | 数据更改导致虚拟DOM重新渲染和打补丁，在这之后会调用该钩子 |
+   |activated | Function | keep-alive组件激活时调用。服务端渲染不可被调用|
+   |deactivated | Function | keep-alive停用时调用， 服务端渲染不可被调用|
+   |beforeDestory | Function | 实力销毁之前调用，此时实例仍然可用，服务端渲染时不可调用|
+   |destory | Function | vue实例销毁后调用。调用后，vue实例相关的所有东西都会解绑，所有事件监听器会被移除，子实例也会被销毁。服务端渲染期间不可被调用 |
+   |errorCaptured | (err:Error,vm:Component, info:string) => ? boolean | 当捕获一个来自子孙组件的错误时被调用。此钩子会收到三个参数：错误对象、发生错误的组件实例以及一个包含错误来源信息的字符串。此钩子可以返回 false 以阻止该错误继续向上传播 |
+   ![lifeCircle](/vue/img/lifeCircle-vue.png)
 2. 指令介绍
 3. 自定义指令
 4. 双向绑定原理
-5. nextTick原理
+5. nextTick原理  `Vue 在更新 DOM 时是异步执行的。只要侦听到数据变化，Vue 将开启一个队列，并缓冲在同一事件循环中发生的所有数据变更。如果同一个 watcher 被多次触发，只会被推入到队列中一次。这种在缓冲时去除重复数据对于避免不必要的计算和 DOM 操作是非常重要的。然后，在下一个的事件循环“tick”中，Vue 刷新队列并执行实际 (已去重的) 工作。Vue 在内部对异步队列尝试使用原生的 Promise.then、MutationObserver 和 setImmediate，如果执行环境不支持，则会采用 setTimeout(fn, 0) 代替。`
 6. 动态变化
 7. 模版编译原理
 8. diff算法
-9. 虚拟dom树
+9.  虚拟dom树
 10. keep-alive 缓存动态组件 `include exclude `
 11. vue性能优化 函数式组件按需加载 路由懒加载 局部变量 computed使用解构 非响应式数据 异步组件 [性能优化](https://juejin.cn/post/6922641008106668045)
 12. slot的使用
@@ -174,7 +188,7 @@ $listeners: 包含了父作用域中（组件标签）的 (不含.native) v-on �
 9. shouldComponentsUpdate用途
 10. redux单向数据流
 11. 组件公共逻辑的抽离 高阶组件 render props
-12. [react面试体](https://juejin.cn/post/6844904093492707336#heading-67)
+12. [react面试](https://juejin.cn/post/6844904093492707336#heading-67)
 `redux`
 `reactRouter`
 `flux`
